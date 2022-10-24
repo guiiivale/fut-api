@@ -43,7 +43,12 @@ class MatchesController extends Controller
                 'message' => 'Team not found'], 
                 404);
         }
-
+        if($match->team1_score < 0 || $match->team2_score < 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Score must be positive'], 
+                404);
+        }
         $match->team1()->associate($team1);
         $match->team2()->associate($team2);
         $match->team1_score = $data['team1_score'];
@@ -96,9 +101,21 @@ class MatchesController extends Controller
         $classification1->goals_scored -= $match->team1_score;
         $classification2->goals_scored -= $match->team2_score;
         if(isset($data['team1_score'])) {
+            if($data['team1_score'] < 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Score must be positive'], 
+                    404);
+            }
             $classification1->goals_scored += $data['team1_score'];
         }
         if(isset($data['team2_score'])) {
+            if($data['team2_score'] < 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Score must be positive'], 
+                    404);
+            }
             $classification2->goals_scored += $data['team2_score'];
         }
         $classification1->save();
