@@ -31,4 +31,15 @@ Route::group(['middleware' => 'before'], function () {
         Route::put('/edit', 'App\Http\Controllers\TeamsController@update');
         Route::delete('/delete', 'App\Http\Controllers\TeamsController@destroy');
     });
+    Route::prefix('matches')->group(function () {
+        Route::get('/', 'App\Http\Controllers\MatchesController@getMatches');
+        Route::post('/create', 'App\Http\Controllers\MatchesController@store');
+        Route::put('/edit', 'App\Http\Controllers\MatchesController@update');
+        Route::delete('/delete', 'App\Http\Controllers\MatchesController@destroy');
+    });
+    Route::prefix('cards')->group(function () {
+        Route::get('/', 'App\Http\Controllers\CardsController@getCards');
+        Route::post('/create', 'App\Http\Controllers\CardsController@store');
+        Route::put('/edit', 'App\Http\Controllers\CardsController@update');
+    });
 });

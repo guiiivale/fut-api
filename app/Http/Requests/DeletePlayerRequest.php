@@ -51,13 +51,7 @@ class DeletePlayerRequest extends FormRequest
     {
         return [
 
-            "name.required" => "Name is required",
-
-            "cpf.required" => "Cpf is required",
-
-            "number.required" => "Number is required",
-
-            "team_id.required" => "Team is required",
+            "player_id.required" => "Player id is required",
         ];
     }
 }

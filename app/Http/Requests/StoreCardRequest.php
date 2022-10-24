@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class UpdatePlayerRequest extends FormRequest
+class StoreCardRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,10 @@ class UpdatePlayerRequest extends FormRequest
     public function rules()
     {
         return [
+            'match_id' => 'required|integer',
             'player_id' => 'required|integer',
-            'name' => 'string',
-            'cpf' => 'string',
-            'number' => 'integer',
-            'team_id' => 'integer',
+            'yellow_cards' => 'integer',
+            'red_cards' => 'integer',
         ];
     }
 
@@ -55,8 +54,14 @@ class UpdatePlayerRequest extends FormRequest
     {
         return [
 
-            "player_id.required" => "Player id is required",
+            'match_id.required' => 'Match id is required',
+            'match_id.integer' => 'Match id must be an integer',
+            'player_id.required' => 'Player id is required',
+            'player_id.integer' => 'Player id must be an integer',
+            'yellow_cards.integer' => 'Yellow cards must be an integer',
+            'red_cards.integer' => 'Red cards must be an integer',
 
         ];
     }
+
 }
