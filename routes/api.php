@@ -17,3 +17,18 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['middleware' => 'before'], function () {
+    Route::prefix('players')->group(function () {
+        Route::get('/', 'App\Http\Controllers\PlayersController@getPlayers');
+        Route::post('/create', 'App\Http\Controllers\PlayersController@store');
+        Route::put('/edit', 'App\Http\Controllers\PlayersController@update');
+        Route::delete('/delete', 'App\Http\Controllers\PlayersController@destroy');
+    });
+    Route::prefix('teams')->group(function () {
+        Route::get('/', 'App\Http\Controllers\TeamsController@getTeams');
+        Route::post('/create', 'App\Http\Controllers\TeamsController@store');
+        Route::put('/edit', 'App\Http\Controllers\TeamsController@update');
+        Route::delete('/delete', 'App\Http\Controllers\TeamsController@destroy');
+    });
+});
