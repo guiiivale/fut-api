@@ -3,16 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DeletePlayerRequest;
+use App\Http\Requests\PlayerRequest;
 use App\Http\Requests\StorePlayerRequest;
 use App\Http\Requests\UpdatePlayerRequest;
 use App\Models\Player;
+use App\Models\PlayersClassification;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
 class PlayersController extends Controller
 {
-    public function getPlayers()
+    public function getPlayers(PlayerRequest $request)
     {
+        $data = $request->validated();
+        if(isset($data['cpf'])){
+            $player = Player::where('cpf', $data['cpf'])->first();
+            if(!$player){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Player not found'], 
+                    404);
+            }
+            return response()->json($player);
+        }
         $players = Player::all();
         return response()->json($players);
     }
@@ -48,7 +61,9 @@ class PlayersController extends Controller
         $player->number = $data['number'];
         $player->team()->associate($team);
         $player->save();
-
+        $classification = new PlayersClassification();
+        $classification->player()->associate($player);
+        $classification->save();
         return response()->json($player);
     }
 
@@ -78,23 +93,6 @@ class PlayersController extends Controller
                 ]);
             }
             $player->number = $data['number'];
-        }
-        if (isset($data['team_id'])) {
-            $team = Team::find($data['team_id']);
-            if (!$team) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Team not found'
-                ]);
-            }
-            if($team->players()->count() == 5 )
-            {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Team already has 5 players'
-                ]);
-            }
-            $player->team()->associate($team);
         }
         $player->save();
         return response()->json($player);

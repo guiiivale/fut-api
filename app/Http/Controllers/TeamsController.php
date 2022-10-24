@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DeleteTeamRequest;
 use App\Http\Requests\StoreTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
+use App\Models\Classification;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -20,6 +21,9 @@ class TeamsController extends Controller
     {
         $data = $request->validated();
         $team = Team::create($data);
+        $classification = new Classification();
+        $classification->team()->associate($team);
+        $classification->save();
         return response()->json($team);
     }
 

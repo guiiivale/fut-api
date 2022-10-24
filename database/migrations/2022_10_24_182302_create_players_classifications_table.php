@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClassificationsTable extends Migration
+class CreatePlayersClassificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateClassificationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('classifications', function (Blueprint $table) {
+        Schema::create('players_classifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('team_id')->constrained();
-            $table->integer('goals_scored')->default(0);
+            $table->foreignId('player_id')->constrained();
+            $table->integer('points')->default(0);
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateClassificationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('classifications');
+        Schema::dropIfExists('players_classifications');
     }
 }

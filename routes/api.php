@@ -42,4 +42,8 @@ Route::group(['middleware' => 'before'], function () {
         Route::post('/create', 'App\Http\Controllers\CardsController@store');
         Route::put('/edit', 'App\Http\Controllers\CardsController@update');
     });
+    Route::prefix('classification')->group(function () {
+        Route::get('/teams', 'App\Http\Controllers\ClassificationsController@getTeamsClassification');
+        Route::get('/players', 'App\Http\Controllers\ClassificationsController@getPlayersClassification');
+    });
 });

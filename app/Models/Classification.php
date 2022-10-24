@@ -10,7 +10,7 @@ class Classification extends Model
     use HasFactory;
 
     protected $fillable = [
-        'points',
+        'goals_scored',
         'team_id'
     ];
 
