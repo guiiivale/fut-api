@@ -84,7 +84,7 @@ class PlayersController extends Controller
             $player->cpf = $data['cpf'];
         }
         if (isset($data['number'])) {
-            $IsNumberAlreadyTaken = Player::where('number', $data['number'])->where('team_id', $data['team_id'])->first();
+            $IsNumberAlreadyTaken = Player::where('number', $data['number'])->where('team_id', $player->team_id)->first();
             if($IsNumberAlreadyTaken)
             {
                 return response()->json([
